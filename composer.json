@@ -1,0 +1,11 @@
+{
+    "name": "seemyping/password-sender",
+    "require": {
+        "twig/twig": "^2.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src"
+        }
+    }
+}
