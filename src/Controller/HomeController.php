@@ -2,13 +2,10 @@
 
 namespace App\Controller;
 
-class HomeController {
-    private $container;
-    public function __construct($container) {
-        $this->container = $container;
-    }
+class HomeController extends Controller {
 
-    public function welcome($arg = null) {
-        echo "$arg";
+    public function welcome() {
+        var_dump($this->encrypt("hello", "secret"));
+        //echo $this->container['render']->render("home.twig");
     }
 }

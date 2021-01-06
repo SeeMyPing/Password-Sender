@@ -1,12 +1,18 @@
 <?php
 require "vendor/autoload.php";
 
-$loader = new Twig_Loader_Filesystem(__DIR__ . '/templates');
-$container['render'] = new Twig_Environment($loader, [
+$loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/templates');
+$container['render'] = new \Twig\Environment($loader, [
     "cache" => false
 ]);
 $container['debug'] = false;
-
+$container['database'] = function () {
+    $pdo = new PDO('mysql:dbname='.$_ENV['DB_NAME'].';host='.$_ENV['DB_HOST'], $_ENV["DB_USER"], $_ENV["DB_PASSWORD"]);
+    return $pdo;
+};
+$container['db'] = function ($container) {
+    return new \App\Controller\DatabaseController($container);
+};
 
 
 $router = new App\Router\Router($_GET["url"], $container);
@@ -20,6 +26,7 @@ $router = new App\Router\Router($_GET["url"], $container);
 
 
 $router->get('/', "Home#welcome" );
-$router->get('/:arg', "Home#welcome" );
+
+$router->post('/password', "Password#postPassword" );
 
 $router->run();
